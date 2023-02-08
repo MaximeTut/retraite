@@ -5,6 +5,7 @@ import base64
 import numpy as np
 import scipy.stats as stats
 from numbers import Number
+import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="My App", page_icon=":shark:")
@@ -47,7 +48,7 @@ df_brut = pd.read_csv("retraite_brut.csv", delimiter = ";")
 
 
 titre_html = """
-<p style="text-align: center; font-family: Arial, sans-serif;">
+<p style="text-align: center; font-family: Montserrat;">
   <span style="color: blue; font-size: 70px;">RET</span>
   <span style="color: black; font-size: 70px;">RAI</span>
   <span style="color: red; font-size: 70px;">TE</span>
@@ -55,9 +56,22 @@ titre_html = """
   <span style="font-size: 45px;">Et si on plafonnait les pensions ?</span>
 </p>
 
-
 """
-st.markdown(titre_html, unsafe_allow_html = True)
+
+titre_html_pol = """
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+
+<!-- <body style="background: linear-gradient(90deg, rgba(1,34,144,1) 0%, rgba(247,247,247,1) 50%, rgba(230,39,55,1) 100%);"> -->
+<div style="text-align: center; font-family: 'Montserrat';">
+<h1 style="font-size: 75px; font-weight: 600; letter-spacing: 1.3rem; background: linear-gradient(90deg, rgba(1,34,144,1) 0%, rgba(247,247,247,1) 50%, rgba(230,39,55,1) 100%);">
+  RETRAITE
+</h1>
+<p style="font-size: 45px; letter-spacing: 0.1rem;">Et si on plafonnait les pensions ?</p>
+</div>
+<!-- </body> -->
+"""
+
+st.markdown(titre_html_pol, unsafe_allow_html = True)
 
 
 
@@ -101,6 +115,21 @@ st.markdown("#")
 st.markdown("#")
 st.markdown("#")
 
+#############################################THE PLOT#######################################################""
+df["pension_moyenne"] = df["pension_moyenne"].astype(str)
+
+fig, ax = plt.subplots(figsize = (12,4))
+ax.bar(df["pension_moyenne"], df["depense"])
+ax.set_title("Distribution des pensions")
+ax.annotate("Un plafonnement n'impactera que cette catégorie", xy=(45, 6000000000), xytext=(10, 17000000000),
+            arrowprops=dict(facecolor='red', arrowstyle='->', shrinkA=0))
+plt.xticks(rotation=90, fontsize=8)
+ax.set_ylabel("Budget de l'état (en milliards d'€)")
+ax.set_xlabel("Pensions mensuelles (en €)")
+st.pyplot(fig)
+
+
+
 
 
 
@@ -120,7 +149,7 @@ with st.expander("Explications"):
     
     html_explanation = """
     <p>La distribution des retraites supérieures à 4500 euros est incertaine car non communiquée.
-    En effet, c'est juste marqué : 1.44%.
+    En effet, on sait seulement qu'elle représente 1.44% de la population de retraités.
     Le plus probable est que ces pensions suivent une distribution de Pareto.
     En prenant en compte le budget total de l'état (294,9 milliards) et ce que coûtent exactement les pensions "pauvres",
     calculées grâce aux chiffres de ce tableau (environ 266,7 milliards), j'en conclu que l'état dépense 28,1 milliard pour
@@ -131,7 +160,7 @@ with st.expander("Explications"):
     En résumé, les chiffres que j'utilise:</p>
         <ul>
         <li>Budget de l'état pour les pensions de droit direct : 294,9 milliards d'euros par an </li>
-        <li>Nombre total de retraités = 16,9 millions</li>
+        <li>Nombre total de retraités : 16,9 millions</li>
         <li>Pension "pauvres" : 266,7 milliards d'euros par an</li>
         <li>Pourcentage de retraités touchant plus de 4500 euros/mois brut : 1,44%</li>
         </ul>
