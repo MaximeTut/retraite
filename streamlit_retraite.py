@@ -40,6 +40,13 @@ def economie(plafond: int, pareto_df) -> Number:
     economie = pareto_df.economie.sum()
     return "{:,.0f}".format(economie)
 
+
+def V_SPACE(lines):
+    for _ in range(lines):
+        st.write('&nbsp;')
+
+
+
 set_background("background2.png")
 
 
@@ -58,7 +65,6 @@ titre_html = """
 """
 
 st.markdown(titre_html, unsafe_allow_html = True)
-
 
 
 plafond = st.slider('', min_value=4000, max_value=15000, step=500)
@@ -97,11 +103,11 @@ background: linear-gradient(90deg, rgba(1,34,144,0.75) 0%, rgba(247,247,247,0.75
 """
 st.markdown(chiffre_economie, unsafe_allow_html = True)
 
-st.markdown("#")
-st.markdown("#")
-st.markdown("#")
 
 #############################################THE PLOT#######################################################""
+
+V_SPACE(1)
+
 df["pension_moyenne"] = df["pension_moyenne"].astype(str)
 
 fig, ax = plt.subplots(figsize = (12,4))
@@ -114,18 +120,13 @@ ax.set_ylabel("Budget de l'état (en milliards d'€)")
 ax.set_xlabel("Pensions mensuelles (en €)")
 st.pyplot(fig)
 
-
-
-
-
-
-
-
 ######################### DATA UTILISEES #################################"
 
 with st.expander("Explications"):
 
-    
+
+
+
     html_tableau = """
     <p>
     Les données utilisées proviennent du site du gouvernement. J'utilise ce tableau pour la distribution des pensions :
