@@ -59,7 +59,7 @@ titre_html = """
 <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 
 <div style="text-align: center">
-<h1 style="text-align: center font-weight: 600; letter-spacing: 1.9rem;">
+<h1 style="text-align: center font-weight: 600; letter-spacing: 2rem;">
   RETRAITE
 </h1>
 <h2 style="margin: 10px 0; letter-spacing: 0.1rem; font-family: 'Montserrat'; font-weight: 400;">Et si on plafonnait les pensions ?</h2>
