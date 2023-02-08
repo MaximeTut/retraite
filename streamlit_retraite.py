@@ -61,14 +61,12 @@ titre_html = """
 titre_html_pol = """
 <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 
-<!-- <body style="background: linear-gradient(90deg, rgba(1,34,144,1) 0%, rgba(247,247,247,1) 50%, rgba(230,39,55,1) 100%);"> -->
 <div style="text-align: center; font-family: 'Montserrat';">
-<h1 style="font-size: 75px; font-weight: 600; letter-spacing: 1.3rem; background: linear-gradient(90deg, rgba(1,34,144,1) 0%, rgba(247,247,247,1) 50%, rgba(230,39,55,1) 100%);">
+<h1 style="font-size: 70px; font-weight: 600; letter-spacing: 2rem; ">
   RETRAITE
 </h1>
-<p style="font-size: 45px; letter-spacing: 0.1rem;">Et si on plafonnait les pensions ?</p>
+<p style="margin-top: 20px; font-size: 40px; letter-spacing: 0.1rem;">Et si on plafonnait les pensions ?</p>
 </div>
-<!-- </body> -->
 """
 
 st.markdown(titre_html_pol, unsafe_allow_html = True)
@@ -77,8 +75,8 @@ st.markdown(titre_html_pol, unsafe_allow_html = True)
 
 plafond = st.slider('', min_value=4000, max_value=15000, step=500)
 
-economie_html = f"""<h1 style="color:#8B0000; text-align:center;
-font-size:35px;">Economie réalisée par an en plafonnant les retraites à {plafond} euros :</h1>
+economie_html = f"""<h3 style="color:black; text-align:center; font-weight: 600;
+font-size:34px; font-family: 'Montserrat'; letter-spacing: 0.1rem;">Economie réalisée par an en plafonnant les retraites à {plafond} € :</h3>
 """
 
 st.markdown(economie_html, unsafe_allow_html = True)
@@ -105,8 +103,8 @@ pareto_df["depense_annuel"] = pareto_df["nbre_personne"] * pareto_df["salaire"] 
 economie_realisee = economie(plafond, pareto_df)
 
 chiffre_economie = f"""
-<h1 style="color:red; text-align:center; font-size:45px; 
-background-color:rgba(255, 255, 255, 0.5);">{economie_realisee} Euros</h1>
+<h1 style="margin-top: 15px; color:black; text-align:center; font-size:45px; letter-spacing: 0.1rem; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.35); padding-bottom: 1.5rem; box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+background: linear-gradient(90deg, rgba(1,34,144,0.75) 0%, rgba(247,247,247,0.75) 50%, rgba(230,39,55,0.75) 100%); font-family: 'Montserrat';">{economie_realisee} €</h1>
 
 """
 st.markdown(chiffre_economie, unsafe_allow_html = True)
