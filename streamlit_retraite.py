@@ -31,14 +31,19 @@ def set_background(png_file):
     ''' % bin_str
     return st.markdown(page_bg_img, unsafe_allow_html=True)
 
-def economie(plafond: int) -> Number:
-    economie = sum(pareto_df[pareto_df.salaire>plafond]["salaire"] * pareto_df[pareto_df.salaire>plafond]["nbre_personne"]*12)
+def economie(plafond: int, pareto_df) -> Number:
+
+    pareto_df["salaire_plafonne"] = np.where(pareto_df['salaire'] > plafond, plafond, pareto_df['salaire'])
+    pareto_df["depense_plafonnee_annuel"] = pareto_df["salaire_plafonne"] * pareto_df["nbre_personne"] *12
+    pareto_df["economie"] = pareto_df["depense_annuel"]  - pareto_df["depense_plafonnee_annuel"]
+    economie = pareto_df.economie.sum()
     return "{:,.0f}".format(economie)
 
 set_background("background2.png")
 
 
 df = pd.read_csv("csvForStreamlit.csv")
+df_brut = pd.read_csv("retraite_brut.csv", delimiter = ";")
 
 
 titre_html = """
@@ -81,8 +86,9 @@ pareto_df["proba"] = pdf_normalized
 pareto_df["nbre_personne"] = pareto_df["proba"]*num_people
 pareto_df["nbre_personne"] = round(pareto_df.nbre_personne).astype(int)
 pareto_df["salaire"] = x
+pareto_df["depense_annuel"] = pareto_df["nbre_personne"] * pareto_df["salaire"] *12
 
-economie_realisee = economie(plafond)
+economie_realisee = economie(plafond, pareto_df)
 
 chiffre_economie = f"""
 <h1 style="color:red; text-align:center; font-size:45px; 
@@ -105,22 +111,35 @@ st.markdown("#")
 with st.expander("Explications"):
 
     
+    html_tableau = """
+    <p>
+    Les données utilisées proviennent du site du gouvernement. J'utilise ce tableau pour la distribution des pensions :
+    (Distribution de la pension mensuelle brute de droit direct) <p>"""
+
+
+    
     html_explanation = """
     <p>La distribution des retraites supérieures à 4500 euros est incertaine car non communiquée.
+    En effet, c'est juste marqué : 1.44%.
     Le plus probable est que ces pensions suivent une distribution de Pareto.
-    J'estime le paramètre alpha de cette distribution à 0.5 en utilisant la moyenne des pensions
-    de la catégorie "pensions >4500 euros" à 9600 euros mensuels. Pour cela j'utilise ces chiffres :</p>
+    En prenant en compte le budget total de l'état (294,9 milliards) et ce que coûtent exactement les pensions "pauvres",
+    calculées grâce aux chiffres de ce tableau (environ 266,7 milliards), j'en conclu que l'état dépense 28,1 milliard pour
+    1.44% de la population, les pensions "riches". Ce qui nous donne une pension moyenne de 9649 euros/mois pour cette catégorie
+    de la population.
+    J'utilise ensuite cette moyenne pour calculer le paramètre alpha de la distribution de paréto
+    à 0.5.
+    En résumé, les chiffres que j'utilise:</p>
         <ul>
-        <li>Budget de l'état pour les pensions de droit direct des régimes obligatoires : 294,9 milliards d'euros par an </li>
+        <li>Budget de l'état pour les pensions de droit direct : 294,9 milliards d'euros par an </li>
         <li>Nombre total de retraités = 16,9 millions</li>
+        <li>Pension "pauvres" : 266,7 milliards d'euros par an</li>
         <li>Pourcentage de retraités touchant plus de 4500 euros/mois brut : 1,44%</li>
         </ul>
     <p>Ces données sont disponibles dans l'onglet "source"</p>
-    <p>Ces données sont disponibles dans l'onglet "source"</p>
-
     
     """
-
+    st.markdown(html_tableau, unsafe_allow_html=True)
+    st.dataframe(df_brut)
     st.markdown(html_explanation, unsafe_allow_html=True)
 
 
@@ -143,14 +162,16 @@ with st.expander("Sources"):
     Donnee_distribution = """
     <p>Distribution des pensions:
     <a href="https://data.drees.solidarites-sante.gouv.fr/explore/dataset/4178_distribution-des-pensions-mensuelles/information/">data.drees.solidarites-sante.gouv.fr</a>.</p>
-    <p>Du jeu de données fournis, j'utilise ce tableau (Distribution de la pension mensuelle brute de droit direct):
     """
     st.markdown(Donnee_distribution, unsafe_allow_html=True)
-    df_brut = pd.read_csv("retraite_brut.csv", delimiter = ";")
-    st.dataframe(df_brut)
     
 
-
+with st.expander("Notebook"):
+    github = """
+    <p>Lien Github avec le notebook :
+    <a href="https://github.com/MaximeTut/retraite">Github</a>.</p>
+    """
+    st.markdown(github, unsafe_allow_html=True)
 
 
 
