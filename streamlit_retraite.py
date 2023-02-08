@@ -55,24 +55,23 @@ df_brut = pd.read_csv("retraite_brut.csv", delimiter = ";")
 
 
 
-titre_html_pol = """
+titre_html = """
 <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 
-<div style="text-align: center; font-family: 'Montserrat';">
-<h1 style="font-size: 70px; font-weight: 600; letter-spacing: 2rem; ">
+<div style="text-align: center">
+<h1 style="text-align: center; font-weight: 600; letter-spacing: 1.8rem; padding-left: 1vw;">
   RETRAITE
 </h1>
-<p style="margin-top: 20px; font-size: 40px; letter-spacing: 0.1rem; ">Et si on plafonnait les pensions ?</p>
+<h2 style="margin: 10px 0; letter-spacing: 0.1rem; font-family: 'Montserrat'; font-weight: 400;">Et si on plafonnait les pensions ?</h2>
 </div>
 """
 
-st.markdown(titre_html_pol, unsafe_allow_html = True)
+st.markdown(titre_html, unsafe_allow_html = True)
 
 
 plafond = st.slider('', min_value=4000, max_value=15000, step=500)
 
-economie_html = f"""<h3 style="color:black; text-align:center; font-weight: 600; 
-font-size:34px; font-family: 'Montserrat'; letter-spacing: 0.1rem;">Economie réalisée par an en plafonnant les retraites à {plafond} € :</h3>
+economie_html = f"""<p style="text-align:center; font-weight: 600; font-family: 'Montserrat'; letter-spacing: 0.1rem;">Economie réalisée par an en plafonnant les retraites à {plafond} € :</p>
 """
 
 st.markdown(economie_html, unsafe_allow_html = True)
@@ -99,8 +98,8 @@ pareto_df["depense_annuel"] = pareto_df["nbre_personne"] * pareto_df["salaire"] 
 economie_realisee = economie(plafond, pareto_df)
 
 chiffre_economie = f"""
-<h1 style="margin-top: 15px; color:black; text-align:center; font-size:45px; letter-spacing: 0.1rem; color: #FF4B4B; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35); padding-bottom: 1.5rem; box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-background: linear-gradient(90deg, rgba(1,34,144,0.75) 0%, rgba(247,247,247,0.75) 50%, rgba(230,39,55,0.75) 100%); font-family: 'Montserrat';">{economie_realisee} €</h1>
+<h2 style="margin-top: 15px; text-align:center; letter-spacing: 0.1rem; color: #FF4B4B; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35); font-weight: 700; padding: 0.8rem 0.5rem 0rem; box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+background: linear-gradient(90deg, rgba(1,34,144,0.75) 0%, rgba(247,247,247,0.75) 50%, rgba(230,39,55,0.75) 100%); font-family: 'Montserrat';">{economie_realisee} €</p>
 
 """
 st.markdown(chiffre_economie, unsafe_allow_html = True)
@@ -126,9 +125,9 @@ st.pyplot(fig)
 
 with st.expander("Explications"):
 
-    
 
-    
+
+
     html_tableau = """
     <p>
     Les données utilisées proviennent du site du gouvernement. J'utilise ce tableau pour la distribution des pensions :
