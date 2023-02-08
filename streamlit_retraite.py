@@ -91,7 +91,7 @@ pareto_df["depense_annuel"] = pareto_df["nbre_personne"] * pareto_df["salaire"] 
 economie_realisee = economie(plafond, pareto_df)
 
 chiffre_economie = f"""
-<p style="margin-top: 15px; text-align:center; font-size:45px; letter-spacing: 0.1rem; color: #FF4B4B; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35); font-weight: 700; padding: 0.8rem; box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+<p style="margin-top: 15px; text-align:center; font-size:45px; letter-spacing: 0.1rem; color: #FF4B4B; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35); font-weight: 700; padding: 0.7rem; box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 background: linear-gradient(90deg, rgba(1,34,144,0.75) 0%, rgba(247,247,247,0.75) 50%, rgba(230,39,55,0.75) 100%); font-family: 'Montserrat';">{economie_realisee} €</p>
 
 """
